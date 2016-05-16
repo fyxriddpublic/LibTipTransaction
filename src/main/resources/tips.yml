@@ -1,0 +1,112 @@
+#提示事务
+#格式'/f tp <插件名> <配置名> [配置变量]'
+
+#配置变量格式:
+#{x}: 第x个变量,x>=1
+#{x,}: 第x到最后个变量,x>=1
+#{,y}: 第0到y个变量,y>=1
+#{x,y}: 第x到y个变量,y>=x>=1
+#{,}: 从开始到最后个变量
+
+#注意:
+#Map名与提示变量名不能相同,否则会产生冲突!!!
+
+#配置变量: '领地券ID'
+certTipSetName:
+
+  #权限,可为空(默认无)
+  per: "cert.create"
+
+  #输入后是否立即自动确认(默认false)
+  instant: true
+
+  #是否在显示输入的内容时转换颜色字符(默认false)
+  convert: false
+
+  #提示变量(格式为{变量名})(默认只包含name变量)
+  #默认提供以下变量:
+  #  name: 玩家名
+  #>格式一: '1 [字符串]'
+  #  表示值为普通的字符串
+  #  字符串可包含空格
+  #>格式二: '2 [插件名:]获取名:<属性/方法> [变量]'
+  #  表示值需要从插件中获取
+  #  插件名默认表示此配置所属插件
+  #  属性/方法: 无括号为属性,有括号为方法,括号中包含'p'表示会传入玩家
+  #    属性: 如name
+  #    方法: 如getName()或getName(p)
+  #  变量可包含空格
+  #  变量可包含'配置变量'(配置变量前后必须以空格分隔)
+  #>格式三: '3 (单个)配置变量'
+  #  表示值从配置变量中获取
+  params:
+    certName: "2 Cert:CertName:name {1}"
+
+  #Map映射列表(MAP名必须全)(默认无)
+  #格式'MAP名 [值]'
+  #值可包含空格
+  #值可包含'提示变量'
+  maps:
+    - "newName {certName}"
+
+  #推荐值列表(可以不全)(默认无)
+  #>格式一: 'MAP名 1 推荐值,...'
+  #  推荐值可包含'提示变量'
+  #格式二: 'MAP名 2 [插件名:]获取名 [变量]'
+  #  插件名默认表示此配置所属插件
+  #  变量可包含空格
+  #  变量可包含'提示变量'
+  recommends:
+
+  #设置初始输入位置(为Map名)(默认无)
+  key: "newName"
+
+  #提示列表(不能为空)
+  #格式'[插件名] 语言ID'
+  #  插件名默认表示此配置所属插件
+  #'提示变量'会传入到语言文本中
+  tips:
+    - "Cert 1000"
+
+  #提交后执行的命令(不能为空)
+  #>可包含变量(在提示时就会被替换):
+  #  提示变量
+  #>提交后执行的变量(是提示事务自行保证的):
+  #  MAP名变量
+  cmd: "/f Cert ab {1} {newName}"
+
+#配置变量: '插件名'
+reloadConfig:
+  params:
+    plugin: "3 {1}"
+  tips:
+    - "415"
+  cmd: "/f cm s {plugin}"
+
+#getPlayerContext
+#  >pageNow
+#  >listNow
+
+#配置变量: 无
+toPage:
+  instant: true
+  params:
+    pageNow: "2 getPlayerContext:pageNow"
+  maps:
+    - "page {pageNow}"
+  key: "page"
+  tips:
+    - "680"
+  cmd: "/f sm p to {page}"
+
+#配置变量: 无
+toList:
+  instant: true
+  params:
+    pageNow: "2 getPlayerContext:listNow"
+  maps:
+    - "page {pageNow}"
+  key: "page"
+  tips:
+    - "690"
+  cmd: "/f sm l to {page}"
