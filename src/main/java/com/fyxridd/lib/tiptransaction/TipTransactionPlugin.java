@@ -1,10 +1,9 @@
 package com.fyxridd.lib.tiptransaction;
 
-import com.fyxridd.lib.config.api.ConfigApi;
+import com.fyxridd.lib.core.api.config.ConfigApi;
 import com.fyxridd.lib.core.api.plugin.SimplePlugin;
 import com.fyxridd.lib.tiptransaction.manager.TipTransactionManager;
 import com.fyxridd.lib.transaction.config.TransactionConfig;
-import com.fyxridd.lib.transaction.manager.TransactionManager;
 
 public class TipTransactionPlugin extends SimplePlugin{
     public static TipTransactionPlugin instance;

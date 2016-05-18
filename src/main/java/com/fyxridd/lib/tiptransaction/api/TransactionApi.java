@@ -1,7 +1,5 @@
 package com.fyxridd.lib.tiptransaction.api;
 
-import com.fyxridd.lib.core.api.inter.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

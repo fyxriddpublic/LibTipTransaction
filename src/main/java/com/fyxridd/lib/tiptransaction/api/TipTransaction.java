@@ -1,5 +1,7 @@
 package com.fyxridd.lib.tiptransaction.api;
 
+import com.fyxridd.lib.transaction.api.Transaction;
+
 /**
  * 提示事务<br>
  * 本身并非实际的功能,而是作为玩家与功能的一个接口
