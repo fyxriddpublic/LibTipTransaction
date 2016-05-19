@@ -2,7 +2,13 @@ package com.fyxridd.lib.tiptransaction.manager;
 
 import com.fyxridd.lib.core.api.*;
 import com.fyxridd.lib.core.api.event.ReloadConfigEvent;
+import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
 import com.fyxridd.lib.core.api.inter.*;
+import com.fyxridd.lib.tiptransaction.api.TipParamsHandler;
+import com.fyxridd.lib.tiptransaction.api.TipRecommendsHandler;
+import com.fyxridd.lib.tiptransaction.api.TipTransaction;
+import com.fyxridd.lib.transaction.api.TransactionUser;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -73,7 +79,7 @@ public class TipTransactionManager implements Listener, FunctionInterface {
                     String[] args = data.split(" ");
                     switch (Integer.parseInt(args[0])) {
                         case 1:
-                            return getType1(name, args.length == 1?"":CoreApi.combine(args, " ", 1, args.length));
+                            return getType1(name, args.length == 1?"":UtilApi.combine(args, " ", 1, args.length));
                         case 2:
                             String[] args2 = args[1].split(":");
                             String pluginName, getName, getData, getArg;
@@ -86,7 +92,7 @@ public class TipTransactionManager implements Listener, FunctionInterface {
                                 getName = args2[1];
                                 getData = args2[2];
                             }
-                            getArg = args.length > 2?CoreApi.combine(args, " ", 2, args.length):"";
+                            getArg = args.length > 2?UtilApi.combine(args, " ", 2, args.length):"";
                             return getType2(name, pluginName, getName, getData, getArg);
                         case 3:
                             return getType3(name, args[1]);
@@ -152,7 +158,7 @@ public class TipTransactionManager implements Listener, FunctionInterface {
                                 pluginName = plugin;
                                 getName = args[2];
                             }
-                            getArg = args.length > 3?CoreApi.combine(args, " ", 3, args.length):"";
+                            getArg = args.length > 3?UtilApi.combine(args, " ", 3, args.length):"";
                             return getType2(args[0], pluginName, getName, getArg);
                     }
                 } catch (Exception e) {
@@ -276,7 +282,7 @@ public class TipTransactionManager implements Listener, FunctionInterface {
                 //解析
                 String plugin = args[0];
                 String name = args[1];
-                String[] configParams = (args.length > 2?CoreApi.combine(args, " ", 2, args.length):"").split(" ");
+                String[] configParams = (args.length > 2?UtilApi.combine(args, " ", 2, args.length):"").split(" ");
                 //指定的插件未注册任何提示配置
                 HashMap<String, Info> hash = tips.get(plugin);
                 if (hash == null) {
@@ -321,8 +327,8 @@ public class TipTransactionManager implements Listener, FunctionInterface {
                             int index = 0;
                             String[] ss = paramInfo.type2GetArg.split(" ");
                             String[] result = new String[ss.length];
-                            for (String s:ss) result[index++] = CoreApi.convertArg(configParams, s);
-                            Object c = tipParamsHandler.get(p, CoreApi.combine(result, " ", 0, result.length));
+                            for (String s:ss) result[index++] = UtilApi.convertArg(configParams, s);
+                            Object c = tipParamsHandler.get(p, UtilApi.combine(result, " ", 0, result.length));
                             if (c == null) return;
                             //获取值
                             String value = null;
@@ -363,7 +369,7 @@ public class TipTransactionManager implements Listener, FunctionInterface {
                             params.put(entry.getKey(), value);
                             break;
                         case 3:
-                            params.put(entry.getKey(), CoreApi.convertArg(configParams, paramInfo.type3Str));
+                            params.put(entry.getKey(), UtilApi.convertArg(configParams, paramInfo.type3Str));
                             break;
                     }
                 }
@@ -431,11 +437,11 @@ public class TipTransactionManager implements Listener, FunctionInterface {
     }
 
     public void reloadTips(String plugin) {
-        reloadTips(plugin, CoreApi.loadConfigByUTF8(new File(CoreApi.pluginPath, plugin+"/tips.yml")));
+        reloadTips(plugin, UtilApi.loadConfigByUTF8(new File(CoreApi.pluginPath, plugin+"/tips.yml")));
     }
 
     public void reloadTips(String plugin, File file) {
-        reloadTips(plugin, CoreApi.loadConfigByUTF8(file));
+        reloadTips(plugin, UtilApi.loadConfigByUTF8(file));
     }
 
     public void reloadTips(String plugin, YamlConfiguration config) {
@@ -468,7 +474,7 @@ public class TipTransactionManager implements Listener, FunctionInterface {
             HashMap<String, String> maps = new HashMap<>();
             for (String s:ms.getStringList("maps")) {
                 String[] args = s.split(" ");
-                maps.put(args[0], args.length == 1?"":CoreApi.combine(args, " ", 1, args.length));
+                maps.put(args[0], args.length == 1?"":UtilApi.combine(args, " ", 1, args.length));
             }
 
             //recommends

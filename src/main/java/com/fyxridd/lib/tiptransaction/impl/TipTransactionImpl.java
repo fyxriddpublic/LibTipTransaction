@@ -1,6 +1,11 @@
 package com.fyxridd.lib.tiptransaction.impl;
 
 import com.fyxridd.lib.core.api.*;
+import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
+import com.fyxridd.lib.tiptransaction.api.TipTransaction;
+import com.fyxridd.lib.transaction.api.TransactionApi;
+import com.fyxridd.lib.transaction.api.TransactionUser;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
