@@ -2,6 +2,9 @@ package com.fyxridd.lib.tiptransaction.impl;
 
 import com.fyxridd.lib.core.api.*;
 import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
+import com.fyxridd.lib.input.api.InputApi;
+import com.fyxridd.lib.input.api.InputCallback;
+import com.fyxridd.lib.tiptransaction.TipTransactionPlugin;
 import com.fyxridd.lib.tiptransaction.api.TipTransaction;
 import com.fyxridd.lib.transaction.api.TransactionApi;
 import com.fyxridd.lib.transaction.api.TransactionUser;
@@ -26,36 +29,36 @@ public class TipTransactionImpl extends TipTransaction {
     //提示信息列表
     private List<FancyMessage> tip;
     //名-值映射表
-    private HashMap<String, Object> map;
+    private Map<String, Object> map;
     //名-推荐值列表
-    private HashMap<String, List<Object>> recommend;
+    private Map<String, List<Object>> recommend;
     //玩家正在修改的名
     private String key;
     //是否在显示时转换颜色字符
     private boolean convert;
 
     //缓存
-    private HashMap<String, Integer> recommendPosHash;
+    private Map<String, Integer> recommendPosHash;
 
     /**
-     * @see com.fyxridd.lib.core.api.TransactionApi#newTipTransaction(boolean, String, long, int, String, java.util.List, java.util.HashMap, java.util.HashMap, String)
+     * @see com.fyxridd.lib.tiptransaction.api.TransactionApi#newTipTransaction(boolean, String, long, int, String, java.util.List, java.util.Map, java.util.Map, String)
      */
     public TipTransactionImpl(boolean instant, String name, long last, int tipInterval, String cmd,
-                              List<FancyMessage> tip, HashMap<String, Object> map, String key) {
+                              List<FancyMessage> tip, Map<String, Object> map, String key) {
         this(instant, name, last, tipInterval, cmd, tip, map, null, key, false);
     }
 
     /**
-     * @see com.fyxridd.lib.core.api.TransactionApi#newTipTransaction(boolean, String, long, int, String, java.util.List, java.util.HashMap, java.util.HashMap, String)
+     * @see com.fyxridd.lib.tiptransaction.api.TransactionApi#newTipTransaction(boolean, String, long, int, String, java.util.List, java.util.Map, java.util.Map, String)
      */
     public TipTransactionImpl(boolean instant, String name, long last, int tipInterval, String cmd,
-                              List<FancyMessage> tip, HashMap<String, Object> map, HashMap<String, List<Object>> recommend, String key, boolean convert) {
+                              List<FancyMessage> tip, Map<String, Object> map, Map<String, List<Object>> recommend, String key, boolean convert) {
         super(name, last, tipInterval);
         this.convert = convert;
         this.instant = instant;
         this.cmd = cmd;
         this.tip = tip;
-        if (!this.tip.isEmpty()) this.tip.get(0).combine(CoreMain.tipTransactionManager.getPrefix(), true);
+        if (!this.tip.isEmpty()) this.tip.get(0).combine(TipTransactionPlugin.instance.getTipTransactionManager().getConfig().getLang().get(30), true);
         this.map = map;
         this.recommend = recommend;
         if (recommend != null && !recommend.isEmpty()) {
@@ -73,19 +76,18 @@ public class TipTransactionImpl extends TipTransaction {
         Player p = Bukkit.getPlayerExact(name);
         if (p != null) {
             //删除旧的
-            TipTransaction pre = CoreMain.tipTransactionManager.getPlayerTipTransactionHashMap().remove(p);
+            TipTransaction pre = TipTransactionPlugin.instance.getTipTransactionManager().del(p);
             if (pre != null) {
                 TransactionUser tu = TransactionApi.getTransactionUser(name);
                 tu.delTransaction(pre.getId());
             }
             //设置新的
-            CoreMain.tipTransactionManager.getPlayerTipTransactionHashMap().put(p, this);
+            TipTransactionPlugin.instance.getTipTransactionManager().add(p, this);
         }
     }
 
     @Override
     public void onTip() {
-        super.onTip();
     }
 
     /**
@@ -106,7 +108,7 @@ public class TipTransactionImpl extends TipTransaction {
             case 1:
                 if (args[0].equalsIgnoreCase("a")) {//确认提交
                     //删除输入注册
-                    InputManager.del(p, false);
+                    InputApi.delInput(p, false);
                     //将map值更新到命令
                     if (cmd != null && map != null) {
                         for (String key : map.keySet()) {
@@ -124,13 +126,13 @@ public class TipTransactionImpl extends TipTransaction {
                     if (cmd != null) p.chat(cmd);
                 } else if (args[0].equalsIgnoreCase("c")) {//取消
                     //删除输入注册
-                    InputManager.del(p, false);
+                    InputApi.delInput(p, false);
                     //删除事务
-                    TipTransaction t = CoreMain.tipTransactionManager.getPlayerTipTransactionHashMap().get(p);
+                    TipTransaction t = TipTransactionPlugin.instance.getTipTransactionManager().get(p);
                     if (t != null && t.getId() == getId()) {
-                        CoreMain.tipTransactionManager.getPlayerTipTransactionHashMap().remove(p);
+                        TipTransactionPlugin.instance.getTipTransactionManager().del(p);
                         //清空提示
-                        ShowApi.tip(p, "", true);
+                        MessageApi.send(p, "", true);
                     }
                     TransactionUser tu = TransactionApi.getTransactionUser(getName());
                     if (tu != null) tu.delTransaction(getId());
@@ -149,12 +151,10 @@ public class TipTransactionImpl extends TipTransaction {
 
     @Override
     public void onTimeOut() {
-        super.onTimeOut();
     }
 
     @Override
     public void onCancel() {
-        super.onCancel();
     }
 
     /**
@@ -167,7 +167,7 @@ public class TipTransactionImpl extends TipTransaction {
             Player p = Bukkit.getPlayerExact(getName());
             if (p != null) {
                 //注册输入
-                if (CoreApi.registerInput(p, new InputHandler() {
+                if (InputApi.registerInput(p, new InputCallback() {
                     @Override
                     public boolean onInput(String s) {
                         if (instant) {
@@ -215,7 +215,7 @@ public class TipTransactionImpl extends TipTransaction {
     public void updateShow() {
         Player p = Bukkit.getPlayerExact(getName());
         if (p != null) {
-            HashMap<String, Object> copy = null;
+            Map<String, Object> copy = null;
             //代入值
             if (key != null && map != null && map.containsKey(key)) {
                 copy = new HashMap<>();
@@ -230,15 +230,15 @@ public class TipTransactionImpl extends TipTransaction {
                 result.add(fmi2);
             }
             //显示
-            ShowApi.tip(p, result, true);
+            MessageApi.send(p, result, true);
         }
     }
 
-    public HashMap<String, Object> getMap() {
+    public Map<String, Object> getMap() {
         return map;
     }
 
-    public void setMap(HashMap<String, Object> map) {
+    public void setMap(Map<String, Object> map) {
         this.map = map;
     }
 
@@ -252,6 +252,6 @@ public class TipTransactionImpl extends TipTransaction {
 
     private String convert(Object obj) {
         if (obj == null) return null;
-        return CoreApi.convert(obj.toString());
+        return UtilApi.convert(obj.toString());
     }
 }

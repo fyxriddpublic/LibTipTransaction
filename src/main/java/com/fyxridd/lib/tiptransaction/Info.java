@@ -12,14 +12,14 @@ public class Info {
     private ParamsFactory paramsFactory;
     private String per;
     private boolean instant;
-    private Map<String, MapValue> maps;//不为null
+    private Map<String, String> maps;//不为null
     private Map<String, RecommendInfo> recommends;//不为null
     private String key;
     private List<Integer> tips;
     private String cmd;
     private boolean convert;
 
-    public Info(ParamsFactory paramsFactory, String per, boolean instant, Map<String, MapValue> maps, Map<String, RecommendInfo> recommends, String key, List<Integer> tips, String cmd, boolean convert) {
+    public Info(ParamsFactory paramsFactory, String per, boolean instant, Map<String, String> maps, Map<String, RecommendInfo> recommends, String key, List<Integer> tips, String cmd, boolean convert) {
         this.paramsFactory = paramsFactory;
         this.per = per;
         this.instant = instant;
@@ -43,7 +43,7 @@ public class Info {
         return instant;
     }
 
-    public Map<String, MapValue> getMaps() {
+    public Map<String, String> getMaps() {
         return maps;
     }
 

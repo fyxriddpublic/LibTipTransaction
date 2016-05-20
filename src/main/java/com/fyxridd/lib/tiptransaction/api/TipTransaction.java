@@ -17,10 +17,6 @@ public abstract class TipTransaction extends Transaction {
         super(name, last, tipInterval);
     }
 
-    @Override
-    public void onTip() {
-    }
-
     /**
      * 'a' 确认提交<br>
      * 'b 名' 指定正在修改的key(会同时注册输入)
@@ -29,14 +25,6 @@ public abstract class TipTransaction extends Transaction {
      */
     @Override
     public void onOperate(String... args) {
-    }
-
-    @Override
-    public void onTimeOut() {
-    }
-
-    @Override
-    public void onCancel() {
     }
 
     /**

@@ -1,5 +1,9 @@
 package com.fyxridd.lib.tiptransaction.api;
 
+import com.fyxridd.lib.core.api.fancymessage.FancyMessage;
+import com.fyxridd.lib.tiptransaction.TipTransactionPlugin;
+import com.fyxridd.lib.tiptransaction.impl.TipTransactionImpl;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,17 +14,7 @@ public class TransactionApi {
      * 会读取'插件名/tips.yml'文件
      */
     public static void reloadTips(String plugin) {
-        CoreMain.tipTransactionManager.reloadTips(plugin);
-    }
-
-    /**
-     * 注册提示的Params处理器
-     * @param plugin 插件名
-     * @param getName 获取名
-     * @param tipMapsHandler 处理器
-     */
-    public static void registerParamsHandler(String plugin, String getName, TipParamsHandler tipMapsHandler) {
-        CoreMain.tipTransactionManager.registerParamsHandler(plugin, getName, tipMapsHandler);
+        TipTransactionPlugin.instance.getTipTransactionManager().reloadTips(plugin);
     }
 
     /**
@@ -30,7 +24,7 @@ public class TransactionApi {
      * @param tipRecommendsHandler 处理器
      */
     public static void registerRecommendsHandler(String plugin, String getName, TipRecommendsHandler tipRecommendsHandler) {
-        CoreMain.tipTransactionManager.registerRecommendsHandler(plugin, getName, tipRecommendsHandler);
+        TipTransactionPlugin.instance.getTipTransactionManager().registerRecommendsHandler(plugin, getName, tipRecommendsHandler);
     }
 
     /**
@@ -99,6 +93,6 @@ public class TransactionApi {
      * @param convert 是否在显示输入的内容时转换颜色字符
      */
     public static void tip(boolean instant, String name, String cmd, List<FancyMessage> tips, Map<String, Object> map, Map<String, List<Object>> recommend, String key, boolean convert) {
-        CoreMain.tipTransactionManager.tip(instant, name, cmd, tips, map, recommend, key, convert);
+        TipTransactionPlugin.instance.getTipTransactionManager().tip(instant, name, cmd, tips, map, recommend, key, convert);
     }
 }

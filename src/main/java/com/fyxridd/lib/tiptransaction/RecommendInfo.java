@@ -8,15 +8,15 @@ import com.fyxridd.lib.core.api.UtilApi;
 
 public class RecommendInfo {
     //Map映射名
-    String name;
+    private String name;
     //1,2
-    int type;
+    private int type;
     //type为1
-    List<String> type1List;
+    private List<String> type1List;
     //type为2
-    String type2Plugin;//插件名
-    String type2GetName;//获取名
-    String type2GetArg;//变量
+    private String type2Plugin;//插件名
+    private String type2GetName;//获取名
+    private String type2GetArg;//变量
 
     public RecommendInfo(String name, int type, List<String> type1List, String type2Plugin, String type2GetName, String type2GetArg) {
         this.name = name;
@@ -70,5 +70,25 @@ public class RecommendInfo {
 
     public int getType() {
         return type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<String> getType1List() {
+        return type1List;
+    }
+
+    public String getType2Plugin() {
+        return type2Plugin;
+    }
+
+    public String getType2GetName() {
+        return type2GetName;
+    }
+
+    public String getType2GetArg() {
+        return type2GetArg;
     }
 }

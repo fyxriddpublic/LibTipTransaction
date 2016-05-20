@@ -148,5 +148,12 @@
             <version>[0.0.1,)</version>
             <scope>provided</scope>
         </dependency>
+        <!--LibInput-->
+        <dependency>
+            <groupId>com.fyxridd</groupId>
+            <artifactId>LibInput</artifactId>
+            <version>[0.0.1,)</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
