@@ -25,6 +25,7 @@ import com.fyxridd.lib.params.api.Session;
 import com.fyxridd.lib.tiptransaction.Info;
 import com.fyxridd.lib.tiptransaction.MapValue;
 import com.fyxridd.lib.tiptransaction.RecommendInfo;
+import com.fyxridd.lib.tiptransaction.TipInfo;
 import com.fyxridd.lib.tiptransaction.TipTransactionPlugin;
 import com.fyxridd.lib.tiptransaction.api.TipRecommendsHandler;
 import com.fyxridd.lib.tiptransaction.config.TipConfig;
@@ -74,9 +75,9 @@ public class TipTransactionCmd {
                 for (Map.Entry<String, MapValue> entry:info.getMaps().entrySet()) map.put(entry.getKey(), convert(paramsSession, entry.getValue()));
                 //recommend
                 Map<String, List<Object>> recommend = new HashMap<>();
-                for (Map.Entry<String, Info.RecommendInfo> entry:info.recommends.entrySet()) {
-                    Info.RecommendInfo recommendInfo = entry.getValue();
-                    switch (recommendInfo.type) {
+                for (Map.Entry<String, RecommendInfo> entry:info.getRecommends().entrySet()) {
+                    RecommendInfo recommendInfo = entry.getValue();
+                    switch (recommendInfo.getType()) {
                         case 1:
                         {
                             List<Object> list = new ArrayList<>();
@@ -108,11 +109,11 @@ public class TipTransactionCmd {
                     }
                 }
                 //key
-                String key = info.key;
+                String key = info.getKey();
                 //tips
                 List<FancyMessage> tips = new ArrayList<>();
-                for (Info.TipInfo tipInfo:info.tips) {
-                    FancyMessage msg = FormatApi.get(tipInfo.plugin, tipInfo.langId);
+                for (int langId:info.getTips()) {
+                    FancyMessage msg = get(null, langId);
                     MessageApi.convert(msg, params);
                     tips.add(msg);
                 }

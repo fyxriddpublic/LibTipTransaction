@@ -137,8 +137,7 @@ public class TipTransactionManager {
             String key = ms.getString("key");
 
             //tips
-            List<Info.TipInfo> tips = new ArrayList<>();
-            for (String s:ms.getStringList("tips")) tips.add(Info.TipInfo.load(plugin, s));
+            List<Integer> tips = ms.getIntegerList("tips");
 
             //cmd
             String cmd = ms.getString("cmd");

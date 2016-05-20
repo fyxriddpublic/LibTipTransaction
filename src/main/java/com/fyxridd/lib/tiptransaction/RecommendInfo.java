@@ -67,4 +67,8 @@ public class RecommendInfo {
         }
         return null;
     }
+
+    public int getType() {
+        return type;
+    }
 }

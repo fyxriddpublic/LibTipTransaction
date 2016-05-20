@@ -15,11 +15,11 @@ public class Info {
     private Map<String, MapValue> maps;//不为null
     private Map<String, RecommendInfo> recommends;//不为null
     private String key;
-    private List<TipInfo> tips;
+    private List<Integer> tips;
     private String cmd;
     private boolean convert;
 
-    public Info(ParamsFactory paramsFactory, String per, boolean instant, Map<String, MapValue> maps, Map<String, RecommendInfo> recommends, String key, List<TipInfo> tips, String cmd, boolean convert) {
+    public Info(ParamsFactory paramsFactory, String per, boolean instant, Map<String, MapValue> maps, Map<String, RecommendInfo> recommends, String key, List<Integer> tips, String cmd, boolean convert) {
         this.paramsFactory = paramsFactory;
         this.per = per;
         this.instant = instant;
@@ -55,7 +55,7 @@ public class Info {
         return key;
     }
 
-    public List<TipInfo> getTips() {
+    public List<Integer> getTips() {
         return tips;
     }
 
