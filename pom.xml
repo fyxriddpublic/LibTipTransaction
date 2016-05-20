@@ -134,5 +134,19 @@
             <version>[0.0.1,)</version>
             <scope>provided</scope>
         </dependency>
+        <!--LibFunc-->
+        <dependency>
+            <groupId>com.fyxridd</groupId>
+            <artifactId>LibFunc</artifactId>
+            <version>[0.0.1,)</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--LibParams-->
+        <dependency>
+            <groupId>com.fyxridd</groupId>
+            <artifactId>LibParams</artifactId>
+            <version>[0.0.1,)</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

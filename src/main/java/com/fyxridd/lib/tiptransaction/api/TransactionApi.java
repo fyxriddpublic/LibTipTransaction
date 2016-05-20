@@ -1,8 +1,8 @@
 package com.fyxridd.lib.tiptransaction.api;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TransactionApi {
     /**
@@ -34,27 +34,27 @@ public class TransactionApi {
     }
 
     /**
-     * @see #newTipTransaction(boolean, String, long, int, String, java.util.List, java.util.HashMap, java.util.HashMap, String, boolean)
+     * @see #newTipTransaction(boolean, String, long, int, String, java.util.List, java.util.Map, java.util.Map, String, boolean)
      */
     public static TipTransaction newTipTransaction(boolean instant, String name, long last, int tipInterval, String cmd,
-                                                   List<FancyMessage> tip, HashMap<String, Object> map, String key){
+                                                   List<FancyMessage> tip, Map<String, Object> map, String key){
         return new TipTransactionImpl(instant, name, last, tipInterval, cmd, tip, map, key);
     }
 
     /**
-     * @see #newTipTransaction(boolean, String, long, int, String, java.util.List, java.util.HashMap, java.util.HashMap, String, boolean)
+     * @see #newTipTransaction(boolean, String, long, int, String, java.util.List, java.util.Map, java.util.Map, String, boolean)
      */
     public static TipTransaction newTipTransaction(boolean instant, String name, long last, int tipInterval, String cmd,
-                                                   List<FancyMessage> tip, HashMap<String, Object> map, String key, boolean convert){
+                                                   List<FancyMessage> tip, Map<String, Object> map, String key, boolean convert){
         return new TipTransactionImpl(instant, name, last, tipInterval, cmd, tip, map, null, key, convert);
     }
 
     /**
-     * @see #newTipTransaction(boolean, String, long, int, String, java.util.List, java.util.HashMap, java.util.HashMap, String, boolean)
+     * @see #newTipTransaction(boolean, String, long, int, String, java.util.List, java.util.Map, java.util.Map, String, boolean)
      */
     public static TipTransaction newTipTransaction(boolean instant, String name, long last, int tipInterval, String cmd,
-                                                   List<FancyMessage> tip, HashMap<String, Object> map,
-                                                   HashMap<String, List<Object>> recommend, String key) {
+                                                   List<FancyMessage> tip, Map<String, Object> map,
+                                                   Map<String, List<Object>> recommend, String key) {
         return new TipTransactionImpl(instant, name, last, tipInterval, cmd, tip, map, recommend, key, false);
     }
 
@@ -73,15 +73,15 @@ public class TransactionApi {
      * @param convert 是否在显示输入的内容时转换颜色字符
      */
     public static TipTransaction newTipTransaction(boolean instant, String name, long last, int tipInterval, String cmd,
-                                                   List<FancyMessage> tip, HashMap<String, Object> map,
-                                                   HashMap<String, List<Object>> recommend, String key, boolean convert) {
+                                                   List<FancyMessage> tip, Map<String, Object> map,
+                                                   Map<String, List<Object>> recommend, String key, boolean convert) {
         return new TipTransactionImpl(instant, name, last, tipInterval, cmd, tip, map, recommend, key, convert);
     }
 
     /**
-     * @see #tip(boolean, String, String, java.util.List, java.util.HashMap, java.util.HashMap, String, boolean)
+     * @see #tip(boolean, String, String, java.util.List, java.util.Map, java.util.Map, String, boolean)
      */
-    public static void tip(boolean instant, String name, String cmd, FancyMessage tip, HashMap<String, Object> map, HashMap<String, List<Object>> recommend, String key) {
+    public static void tip(boolean instant, String name, String cmd, FancyMessage tip, Map<String, Object> map, Map<String, List<Object>> recommend, String key) {
         List<FancyMessage> tips = new ArrayList<>();
         tips.add(tip);
         tip(instant, name, cmd, tips, map, recommend, key, false);
@@ -98,7 +98,7 @@ public class TransactionApi {
      * @param key 正在修改的名,可为null
      * @param convert 是否在显示输入的内容时转换颜色字符
      */
-    public static void tip(boolean instant, String name, String cmd, List<FancyMessage> tips, HashMap<String, Object> map, HashMap<String, List<Object>> recommend, String key, boolean convert) {
+    public static void tip(boolean instant, String name, String cmd, List<FancyMessage> tips, Map<String, Object> map, Map<String, List<Object>> recommend, String key, boolean convert) {
         CoreMain.tipTransactionManager.tip(instant, name, cmd, tips, map, recommend, key, convert);
     }
 }

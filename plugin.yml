@@ -1,4 +1,4 @@
 ﻿name: LibTipTransaction
 main: com.fyxridd.lib.tiptransaction.TipPlugin
 version: 0.1.0
-depend: [LibCore, LibTransaction]
+depend: [LibCore, LibTransaction, LibFunc, LibParams]
