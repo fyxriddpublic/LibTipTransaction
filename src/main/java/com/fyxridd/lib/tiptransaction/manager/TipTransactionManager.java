@@ -65,10 +65,12 @@ public class TipTransactionManager {
                 
                 @Override
                 public void execute(Listener listener, Event e) throws EventException {
-                    PlayerQuitEvent event = (PlayerQuitEvent) e;
-                    Player p = event.getPlayer();
-                    TipTransaction t = playerTipTransactionHashMap.remove(p);
-                    if (t != null) TransactionApi.getTransactionUser(p.getName()).delTransaction(t.getId());
+                    if (e instanceof PlayerQuitEvent) {
+                        PlayerQuitEvent event = (PlayerQuitEvent) e;
+                        Player p = event.getPlayer();
+                        TipTransaction t = playerTipTransactionHashMap.remove(p);
+                        if (t != null) TransactionApi.getTransactionUser(p.getName()).delTransaction(t.getId());
+                    }
                 }
             }, TipTransactionPlugin.instance);
         }
